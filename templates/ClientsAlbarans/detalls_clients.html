@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+
+        /* Botons */
+        a.button {
+            display: inline-block;
+            padding: 8px 14px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        a.button:hover {
+            background: #2980b9;
+        }
+
+        a.button.edit {
+            background: #f39c12;
+        }
+
+        a.button.edit:hover {
+            background: #d68910;
+        }
+
+        .client {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+
+        p {
+            margin: 6px 0;
+        }
+
+        .estat-actiu {
+            color: green;
+            font-weight: bold;
+        }
+
+        .estat-inactiu {
+            color: red;
+            font-weight: bold;
+        }
+
+        .actions {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Detalls del Client</h1>
+
+    <p>
+        <a href="{% url 'ClientsAlbarans:inici' %}" class="button">🏠 Inici</a>
+        <a href="{% url 'ClientsAlbarans:clients' %}" class="button">📋 Llista de clients</a>
+    </p>
+
+    <div class="client">
+        <h2>{{ client.nom_comercial }}</h2>
+
+        <p><strong>Codi client:</strong> {{ client.codi_client }}</p>
+        <p><strong>CIF:</strong> {{ client.cif|default:"No especificat" }}</p>
+        <p><strong>Persona de contacte:</strong> {{ client.persona_contacte|default:"No especificada" }}</p>
+        <p><strong>Telèfon:</strong> {{ client.telefon|default:"No especificat" }}</p>
+        <p><strong>Email:</strong> {{ client.email|default:"No especificat" }}</p>
+
+        <hr>
+
+        <p><strong>Adreça d'entrega:</strong> {{ client.adreca_entrega }}</p>
+        <p><strong>Població:</strong> {{ client.poblacion }}</p>
+        <p><strong>Codi postal:</strong> {{ client.codi_postal }}</p>
+
+        <hr>
+
+        <p>
+            <strong>Estat:</strong>
+            {% if client.actiu %}
+                <span class="estat-actiu">Actiu</span>
+            {% else %}
+                <span class="estat-inactiu">Inactiu</span>
+            {% endif %}
+        </p>
+
+        <div class="actions">
+            <a href="{% url 'ClientsAlbarans:editar_client' client.pk %}"
+               class="button edit">
+                ✏️ Editar client
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

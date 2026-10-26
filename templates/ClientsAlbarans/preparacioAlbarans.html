@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+
+        /* Botons */
+        a.button {
+            display: inline-block;
+            padding: 8px 14px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        a.button:hover {
+            background: #2980b9;
+        }
+
+        a.button.edit {
+            background: #f39c12;
+        }
+
+        a.button.edit:hover {
+            background: #d68910;
+        }
+         a.button.detail {
+            background: #2ecc71;
+        }
+
+        a.button.detail:hover {
+            background: #27ae60;
+        }
+
+        .albara {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .estat-preparacio {
+          color: orange;
+          font-weight: bold;
+        }
+
+        .estat-pendent {
+          color: red;
+          font-weight: bold;
+        }
+
+        p {
+            margin: 6px 0;
+        }
+
+        .actions {
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Llista de Albarans</h1>
+
+    <p>
+        <a href="{% url 'ClientsAlbarans:inici' %}" class="button">🏠 Inici</a>
+    </p>
+
+    {% for albara in albarans %}
+        <div class="albara">
+            <h2>{{ albara.numero_albara }}</h2>
+
+            <p><strong>Numero Albara:</strong> {{ albara.numero_albara }}</p>
+            <p><strong>Client:</strong> {{ albara.client.codi_client }} - {{ albara.client.nom_comercial}} </p>
+            <p><strong>Empleat:</strong> {{ albara.empleat.codi_empleat }}</p>
+            <p><strong>Magatzem:</strong> {{ albara.magatzem.nom}}</p>
+            <p><strong>Data creació:</strong> {{ albara.data_creacio }}</p>
+            <p><strong>Data Entrega:</strong> {{ albara.data_entrega_prevista }}</p>
+              <div class="estat">
+            <p>
+                <strong>Estat:</strong>
+                <span class="{% if albara.estat == 'PENDENT' %}estat-pendent{% elif albara.estat == 'EN_PREPARACIO' %}estat-preparacio{% endif %}">
+                    {{ albara.estat }}
+                </span>
+            </p>
+        </div>
+            <p><strong>Base Imposable:</strong> {{ albara.base_imposable }}</p>
+            <p><strong>Total iva:</strong> {{ albara.iva_total }}</p>
+            <p><strong>total:</strong> {{ albara.total }}</p>
+            <p><strong>Observacions:</strong> {{ albara.observacions }}</p>
+            <p><strong>Signatura client:</strong> {{ albara.signatura_client }}</p>
+
+            <div class="actions">
+                <p>
+                    <a href="{% url 'ClientsAlbarans:marcar_preparacio' albara.pk %}">Preparar</a>
+                </p>
+            </div>
+        </div>
+    {% empty %}
+        <p>No hi ha albarans registrats encara.</p>
+    {% endfor %}
+
+</body>
+</html>

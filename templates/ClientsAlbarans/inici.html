@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Pàgina Principal - Gestió d’Albarans</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #eef2f7, #dfe6ee);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 40px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.2em;
+        }
+
+        p {
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 22px;
+            font-size: 1.15em;
+            color: white;
+            text-decoration: none;
+            border-radius: 14px;
+            font-weight: 600;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+
+        .menu a:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Botons */
+        .clients {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+        }
+
+        .albarans {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .cataleg {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+        }
+
+        .consulta {
+            background: linear-gradient(135deg, #16a085, #1abc9c);
+        }
+        .preparacio {
+            background: linear-gradient(135deg, #76CF02,#63AD02);
+        }
+        .stock{
+            background: linear-gradient(135deg, #F52727,#F40B0B);
+        }
+        .admin {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+        }
+
+        footer {
+            margin-top: 60px;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+
+        footer small {
+            display: block;
+        }
+        .user-bar {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.95em;
+}
+
+.user-bar span {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.user-bar a {
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.user-bar .login {
+    background: #3498db;
+    color: white;
+}
+
+.user-bar .register {
+    background: #2ecc71;
+    color: white;
+}
+
+.user-bar button.logout {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-bar button.logout:hover {
+    opacity: 0.85;
+}
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="user-bar">
+    {% if user.is_authenticated %}
+        <span>👋 Hola, {{ user.username }}</span>
+
+        <form method="post"
+              action="{% url 'ClientsAlbarans:logout' %}"
+              style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="logout">Logout</button>
+        </form>
+
+    {% else %}
+        <a href="{% url 'ClientsAlbarans:login' %}" class="login">Login</a>
+        <a href="{% url 'ClientsAlbarans:registre' %}" class="register">Register</a>
+    {% endif %}
+</div>
+
+
+
+    <h1>📦 Sistema de Gestió d’Albarans</h1>
+    <p>Distribuïdora · Projecte Individual amb Django (MVT)</p>
+
+    <div class="menu">
+
+        <a href="{% url 'ClientsAlbarans:clients' %}" class="clients">
+            👥 Clients
+        </a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'ClientsAlbarans:albarans' %}" class="albarans">
+            👥 Albarans
+        </a>
+        {% endif %}
+        <a href="{% url 'ClientsAlbarans:preparacio' %}" class="preparacio" >
+            👥 Albarans en preparacio
+        </a>
+        <a href="{% url 'ClientsAlbarans:cataleg' %}" class="cataleg">
+            📚 Catàleg de productes
+        </a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'ClientsAlbarans:consulta' %}" class="consulta">
+            🔍 Consulta d’albarà
+        </a>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <a href="{% url 'ClientsAlbarans:stock' %}" class="stock">
+            🔍 Consulta stock
+        </a>
+        {% endif %}
+        <a href="{% url 'admin:index' %}" class="admin">
+            ⚙️ Administració
+        </a>
+
+    </div>
+
+    <footer>
+        <small>
+            🚀 Projecte Django · Relacions 1:N · Clients · Albarans · Línies
+        </small>
+    </footer>
+
+</div>
+
+</body>
+</html>

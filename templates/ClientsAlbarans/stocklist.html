@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestió d'Stock</title>
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .low-stock {
+            background-color: #ffcccc;
+            font-weight: bold;
+        }
+
+        .ok-stock {
+            background-color: #e8f8f5;
+        }
+
+        .filters {
+            margin-bottom: 20px;
+        }
+        a.button.inici {
+            background: #2ecc71;
+        }
+
+        a.button.inici:hover {
+            background: #27ae60;
+        }
+        .actions {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📦 Gestió d'Stock</h1>
+
+<form method="get" class="filters">
+    <label>Magatzem:</label>
+    <select name="magatzem">
+        <option value="">-- Tots --</option>
+        {% for m in magatzems %}
+            <option value="{{ m.id }}" {% if request.GET.magatzem == m.id|stringformat:"s" %}selected{% endif %}>
+                {{ m.nom }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <label>Categoria:</label>
+    <select name="categoria">
+        <option value="">-- Totes --</option>
+        {% for c in categories %}
+            <option value="{{ c.id }}" {% if request.GET.categoria == c.id|stringformat:"s" %}selected{% endif %}>
+                {{ c.nom }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Filtrar</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Producte</th>
+            <th>Categoria</th>
+            <th>Magatzem</th>
+            <th>Quantitat</th>
+            <th>Ubicació</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stock in stocks %}
+        <tr class="{% if stock.quantitat < 10 %}low-stock{% else %}ok-stock{% endif %}">
+            <td>{{ stock.producte.nom }}</td>
+            <td>{{ stock.producte.categoria.nom }}</td>
+            <td>{{ stock.magatzem.nom }}</td>
+            <td>{{ stock.quantitat }}</td>
+            <td>{{ stock.ubicacio }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No hi ha stock disponible</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p><strong>🔴 Vermell:</strong> Stock baix (&lt;10 unitats)</p>
+
+ <div class="actions">
+     <a href="{% url 'ClientsAlbarans:inici'%}" class="button inici"> inici</a>
+
+ </div>
+
+</body>
+</html>

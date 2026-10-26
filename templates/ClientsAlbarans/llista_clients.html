@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Llista de Clients</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+
+        /* Botons generals */
+        a.button {
+            display: inline-block;
+            padding: 8px 14px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        a.button:hover {
+            background: #2980b9;
+        }
+
+        /* Variants */
+        a.button.edit {
+            background: #f39c12;
+        }
+
+        a.button.edit:hover {
+            background: #d68910;
+        }
+
+        a.button.detail {
+            background: #2ecc71;
+        }
+
+        a.button.detail:hover {
+            background: #27ae60;
+        }
+
+        .client {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+
+        .actions {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Llista de Clients</h1>
+
+    <p>
+        <a href="{% url 'ClientsAlbarans:inici' %}" class="button">🏠 Inici</a>
+        <a href="{% url 'ClientsAlbarans:crear_client' %}" class="button">➕ Afegir nou client</a>
+    </p>
+
+    {% for client in clients %}
+        {% if client.actiu %}
+            <div class="client">
+                <h2>{{ client.codi_client }}</h2>
+
+                <p><strong>Codi:</strong> {{ client.codi_client|default:"No especificat" }}</p>
+                <p><strong>Nom comercial:</strong> {{ client.nom_comercial }}</p>
+                <p><strong>CIF:</strong> {{ client.cif }}</p>
+                <p><strong>Població:</strong> {{ client.poblacion }}</p>
+                <p><strong>Telèfon:</strong> {{ client.telefon }}</p>
+
+                <div class="actions">
+                    <a href="{% url 'ClientsAlbarans:detalls_client' client.pk %}"
+                       class="button detail">
+                        🔍 Detalls
+                    </a>
+
+                    <a href="{% url 'ClientsAlbarans:editar_client' client.pk %}"
+                       class="button edit">
+                        ✏️ Editar
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+    {% empty %}
+        <p>No hi ha clients registrats encara.</p>
+    {% endfor %}
+
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Llista de categorias</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+
+        /* Botons */
+        a.button {
+            display: inline-block;
+            padding: 8px 14px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        a.button:hover {
+            background: #2980b9;
+        }
+
+        a.button.edit {
+            background: #f39c12;
+        }
+
+        a.button.edit:hover {
+            background: #d68910;
+        }
+
+        .categoria {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+
+        p {
+            margin: 6px 0;
+        }
+
+        .actions {
+            margin-top: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Llista de Categories amb els productes</h1>
+
+    <p>
+        <a href="{% url 'ClientsAlbarans:inici' %}" class="button">🏠 Inici</a>
+    </p>
+    {% for categoria in cataleg %}
+        <div class="categoria">
+            <h2>{{ categoria.nom }}</h2>
+        {% for producte in categoria.productes_actius %}
+            <h2>Productes: </h2>
+            <p><strong>Nom :</strong> {{ producte.nom }}</p>
+                    {% empty %}
+            <p>No hi ha productes actius.</p>
+        {% endfor %}
+        <div class="actions">
+            <a href="{% url 'ClientsAlbarans:ProducteCategoria' categoria.pk %}" class="button detail"> 🔍 Filtrar</a>
+        </div>
+        </div>
+    {% empty %}
+        <p>No hi ha categories registrades encara.</p>
+    {% endfor %}
+
+</body>
+</html>

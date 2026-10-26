@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Reposició d'Stock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        form label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        form input[type="text"],
+        form input[type="number"],
+        form select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        form input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        form input::-webkit-outer-spin-button,
+        form input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        form button {
+            margin-top: 20px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #27ae60;
+        }
+
+        .success-message {
+            background-color: #dff0d8;
+            color: #3c763d;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #d6e9c6;
+        }
+
+        .error-message {
+            background-color: #f2dede;
+            color: #a94442;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ebccd1;
+        }
+
+        .actions {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .actions a.button {
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            background-color: #3498db;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        .actions a.button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+
+<h1>📦 Reposició d'Stock</h1>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="{% if message.tags %}{{ message.tags }}-message{% endif %}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    {% for field in form %}
+        <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+        {{ field.errors }}
+        {{ field }}
+    {% endfor %}
+
+    <button type="submit">Afegir Stock</button>
+</form>
+
+<div class="actions">
+    <a href="{% url 'ClientsAlbarans:inici' %}" class="button">Tornar a l'inici</a>
+</div>
+
+</body>
+</html>
